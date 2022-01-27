@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SundayTech_Assignment_StudentAPI.Services;
 
 namespace SundayTech_Assignment_StudentAPI
 {
@@ -26,6 +28,13 @@ namespace SundayTech_Assignment_StudentAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<DataContext.AppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Register dapper in scope    
+            services.AddScoped<IDapper, Dapperr>();
+
+            //services.AddCors(option => option.AddPolicy("APIPolicy", builder => {
+            //    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+            //}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
