@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SundayTech_Assignment_StudentAPI.Services;
 using System.IO;
+using SundayTech_Assignment_StudentAPI.Filters;
 
 namespace SundayTech_Assignment_StudentAPI
 {
@@ -38,6 +39,15 @@ namespace SundayTech_Assignment_StudentAPI
             {
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             }));
+
+            //Added Global filter
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new ValidationFilterAttribute());
+            });
+
+            //Added Scoped Filter - Action or Controller level
+            services.AddScoped<ActionFilterExample>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
