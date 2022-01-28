@@ -47,7 +47,7 @@ namespace SundayTech_Assignment_StudentAPI
             });
 
             //Added Scoped Filter - Action or Controller level
-            services.AddScoped<ActionFilterExample>();
+            services.AddScoped<LoggerFilterAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
