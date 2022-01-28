@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using SundayTech_Assignment_StudentAPI.BussinessLogic.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SundayTech_Assignment_StudentAPI.Controllers
@@ -25,7 +23,13 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
         {
             try
             {
-                return Ok(await _studentManager.GetStudents(id));
+                _logger.LogInformation("Student API Start for GetStudents for Id = " + id);
+
+                var result = await _studentManager.GetStudents(id);
+
+                _logger.LogInformation("Student API End for GetStudents for Id = " + id + " with response = " + result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -39,7 +43,13 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
         {
             try
             {
-                return Ok(await _studentManager.SaveStudent(model));
+                _logger.LogInformation("Student API Start for SaveStudent for model = " + model);
+
+                var result = await _studentManager.SaveStudent(model);
+
+                _logger.LogInformation("Student API End for SaveStudent for model = " + model + " with response = " + result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -53,8 +63,13 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
         {
             try
             {
-                await _studentManager.UpdateStudent(id, model);
-                return Ok();
+                _logger.LogInformation("Student API Start for UpdateStudent for Id = " + id + " model = " + model);
+
+                var result = await _studentManager.UpdateStudent(id, model);
+
+                _logger.LogInformation("Student API End for UpdateStudent for Id = " + id + " model = " + model + " with response = " + result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -68,8 +83,13 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
         {
             try
             {
-                await _studentManager.DeleteStudent(id);
-                return Ok();
+                _logger.LogInformation("Student API Start for DeleteStudent for Id = " + id);
+
+                var result = await _studentManager.DeleteStudent(id);
+
+                _logger.LogInformation("Student API End for DeleteStudent for Id = " + id + " with response = " + result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

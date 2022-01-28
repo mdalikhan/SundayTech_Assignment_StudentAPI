@@ -8,13 +8,9 @@ using System.Threading.Tasks;
 
 namespace SundayTech_Assignment_StudentAPI.Services
 {
-    public interface IDapper : IDisposable
+    public interface IDapper
     {
         DbConnection GetDbconnection();
-        T Get<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
-        List<T> GetAll<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
-        int Execute(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
-        T Insert<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
-        T Update<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
+        Task<object> Execute(string query, DynamicParameters parameters, CommandType commandType = CommandType.StoredProcedure);
     }
 }
