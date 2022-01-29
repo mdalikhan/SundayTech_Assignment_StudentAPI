@@ -11,6 +11,6 @@ namespace SundayTech_Assignment_StudentAPI.Services
     public interface IDapper
     {
         DbConnection GetDbconnection();
-        Task<object> Execute(string query, DynamicParameters parameters, CommandType commandType = CommandType.StoredProcedure);
+        Task<object> Execute<T>(string query, DynamicParameters parameters, CommandType commandType = CommandType.StoredProcedure, bool isSingleRecord = false);
     }
 }

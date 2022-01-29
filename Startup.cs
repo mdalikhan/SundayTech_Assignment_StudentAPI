@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using SundayTech_Assignment_StudentAPI.Services;
 using System.IO;
 using SundayTech_Assignment_StudentAPI.Filters;
+using SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate;
+using SundayTech_Assignment_StudentAPI.BussinessLogic.Abstract;
 
 namespace SundayTech_Assignment_StudentAPI
 {
@@ -48,6 +50,8 @@ namespace SundayTech_Assignment_StudentAPI
 
             //Added Scoped Filter - Action or Controller level
             services.AddScoped<LoggerFilterAttribute>();
+
+            services.AddScoped<IStudentManager, StudentManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +64,8 @@ namespace SundayTech_Assignment_StudentAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

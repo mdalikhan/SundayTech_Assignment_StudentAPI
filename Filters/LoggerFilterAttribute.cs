@@ -17,22 +17,11 @@ namespace SundayTech_Assignment_StudentAPI.Filters
         }
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.ActionArguments.Any(kv => kv.Value == null))
-            {
-                context.Result = new BadRequestObjectResult("Request object cannot be null.");
-            }
-            if (!context.ModelState.IsValid)
-            {
-                context.Result = new UnprocessableEntityObjectResult(context.ModelState);
-            }
+            _logger.LogInformation("[Request Body]" + context.HttpContext.Request.Body); //log response
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogDebug("[path]" + context.HttpContext.Request.Path);
-            _logger.LogDebug("[method]" + context.HttpContext.Request.Method);
-            _logger.LogDebug("[body]"); //log request body, expectation: { "id" : "1234", "title" : "test", "status" : "draft"}
-            _logger.LogDebug("[statuscode]" + context.HttpContext.Response.StatusCode);
-            _logger.LogDebug("[response]"); //log response
+            _logger.LogInformation("[Response Body]" + context.HttpContext.Response.Body); //log response
         }
     }
 }

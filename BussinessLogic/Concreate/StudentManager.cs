@@ -19,11 +19,12 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate
             _dapper = dapper;
             _logger = logger;
         }
-        public async Task<List<Student>> GetStudents(int? id)
+        public async Task<Student> GetStudents(int id)
         {
             try
             {
-                var result = (List<Student>) await _dapper.Execute($"Select * from [Student] where Id = ISNULL({id}, Id)", null, commandType: CommandType.Text);
+                var result = (Student) await _dapper.Execute<Student>($"Select * from [Student] where Id = {id}", null, commandType: CommandType.Text, true);
+                
                 return result;
             }
             catch (Exception ex)
@@ -39,7 +40,6 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate
             try
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("Id", model.Id);
                 dbparams.Add("Name", model.Name);
                 dbparams.Add("Class", model.Class);
                 dbparams.Add("RegistrationNumber", model.RegistrationNumber);
@@ -48,7 +48,7 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate
                 dbparams.Add("MobileNumber", model.MobileNumber);
                 dbparams.Add("Email", model.Email);
 
-                var result = (int)await _dapper.Execute("dbo.SP_SAVESTUDENT", dbparams);
+                var result = (int)await _dapper.Execute<int>("dbo.SP_SAVESTUDENT", dbparams, isSingleRecord : true);
                 return result;
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate
             try
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("Id", id);
+                dbparams.Add("Id", id, DbType.Int32);
                 dbparams.Add("Name", model.Name);
                 dbparams.Add("Class", model.Class);
                 dbparams.Add("RegistrationNumber", model.RegistrationNumber);
@@ -72,7 +72,7 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate
                 dbparams.Add("MobileNumber", model.MobileNumber);
                 dbparams.Add("Email", model.Email);
 
-                var result = (int)await _dapper.Execute("dbo.SP_UPDATESTUDENT", dbparams);
+                var result = (int)await _dapper.Execute<int>("dbo.SP_UPDATESTUDENT", dbparams, isSingleRecord : true);
                 return result;
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Concreate
         {
             try
             {
-                var result = (int)await _dapper.Execute($"DELETE FROM [Student] WHERE Id = {id}", null, commandType: CommandType.Text);
+                var result = (int)await _dapper.Execute<int>($"DELETE FROM [Student] WHERE Id = {id}", null, commandType: CommandType.Text, isSingleRecord: true);
                 return result;
             }
             catch (Exception ex)

@@ -23,7 +23,7 @@ namespace SundayTech_Assignment_StudentAPI.Services
         {
             return new SqlConnection(_config.GetConnectionString(Connectionstring));
         }
-        public async Task<object> Execute(string query, DynamicParameters parameters, CommandType commandType = CommandType.StoredProcedure)
+        public async Task<object> Execute<T>(string query, DynamicParameters parameters, CommandType commandType = CommandType.StoredProcedure, bool isSingleRecord = false)
         {
             using IDbConnection db = GetDbconnection();
             try
@@ -34,11 +34,18 @@ namespace SundayTech_Assignment_StudentAPI.Services
                 using var tran = db.BeginTransaction();
                 try
                 {
-                    var resultQuery = db.QueryAsync<object>(query, parameters, commandType: commandType).Result.ToList();
+                    var resultQuery = db.Query<T>(query, parameters, commandType: commandType, transaction : tran);
 
                     tran.Commit();
 
-                    return resultQuery;
+                    if (isSingleRecord)
+                    {
+                        return resultQuery.AsEnumerable().FirstOrDefault();
+                    }
+                    else
+                    {
+                        return resultQuery.AsEnumerable().ToList();
+                    }
                 }
                 catch (Exception ex)
                 {

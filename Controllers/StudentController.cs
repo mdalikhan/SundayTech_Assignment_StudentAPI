@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SundayTech_Assignment_StudentAPI.BussinessLogic.Abstract;
+using SundayTech_Assignment_StudentAPI.Filters;
 using System;
 using System.Threading.Tasks;
 
@@ -17,9 +18,9 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
             _logger = logger;
             _studentManager = studentManager;
         }
-
-        [HttpGet("GetStudents/{id?}")]
-        public async Task<IActionResult> GetStudents(int? id)
+        [ServiceFilter(typeof(LoggerFilterAttribute), Order = 1)]
+        [HttpGet("GetStudents/{id}")]
+        public async Task<IActionResult> GetStudents(int id)
         {
             try
             {
@@ -38,6 +39,7 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
                 throw new ApplicationException(errorMessage, ex);
             }
         }
+        [ServiceFilter(typeof(LoggerFilterAttribute), Order = 1)]
         [HttpPost("SaveStudent")]
         public async Task<IActionResult> SaveStudent([FromBody] Student model)
         {
@@ -58,6 +60,7 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
                 throw new ApplicationException(errorMessage, ex);
             }
         }
+        [ServiceFilter(typeof(LoggerFilterAttribute), Order = 1)]
         [HttpPut("UpdateStudent/{id}")]
         public async Task<IActionResult> UpdateStudent(int id, [FromBody] Student model)
         {
@@ -78,6 +81,7 @@ namespace SundayTech_Assignment_StudentAPI.Controllers
                 throw new ApplicationException(errorMessage, ex);
             }
         }
+        [ServiceFilter(typeof(LoggerFilterAttribute), Order = 1)]
         [HttpDelete("DeleteStudent/{id}")]
         public async Task<IActionResult> DeleteStudent(int id)
         {

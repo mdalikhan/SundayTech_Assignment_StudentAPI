@@ -7,7 +7,7 @@ namespace SundayTech_Assignment_StudentAPI.BussinessLogic.Abstract
 {
     public interface IStudentManager
     {
-        Task<List<Student>> GetStudents(int? id);
+        Task<Student> GetStudents(int id);
         Task<int> SaveStudent(Student model);
         Task<int> UpdateStudent(int id, Student model);
         Task<int> DeleteStudent(int id);
