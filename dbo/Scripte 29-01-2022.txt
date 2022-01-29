@@ -1,0 +1,79 @@
+﻿-----------------SQL Script create by Mohammad Ali Khan----------------------
+GO
+CREATE DATABASE StudentManagement;
+GO
+CREATE TABLE dbo.Student (
+    Id INT IDENTITY(1, 1) PRIMARY KEY NOT NULL,
+    [Name] NVARCHAR(500) NOT NULL,
+	Class NVARCHAR(50) NOT NULL,
+	RegistrationNumber NVARCHAR(50) NOT NULL,
+	DateOfBirth DATETIME,
+	Gender NVARCHAR(10) NOT NULL,
+	MobileNumber NVARCHAR(20) NULL,
+	Email NVARCHAR(50) NULL
+	);
+GO
+CREATE PROCEDURE dbo.SP_SAVESTUDENT
+(
+	@Name VARCHAR(500),
+	@Class NVARCHAR(50),
+	@RegistrationNumber NVARCHAR(50),
+	@DateOfBirth DATETIME,
+	@Gender NVARCHAR(10),
+	@MobileNumber NVARCHAR(20),
+	@Email NVARCHAR(50)
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+	INSERT INTO dbo.Student
+	(	
+		Name,
+		Class,
+		RegistrationNumber,
+		DateOfBirth,
+		Gender,
+		MobileNumber,
+		Email
+	) 
+	VALUES
+	(
+		@Name,
+		@Class,
+		@RegistrationNumber,
+		@DateOfBirth,
+		@Gender,
+		@MobileNumber,
+		@Email
+	)
+    SELECT CAST(SCOPE_IDENTITY() AS INT)
+END
+GO
+CREATE PROCEDURE dbo.SP_UPDATESTUDENT
+(
+	@Id INT,
+	@Name VARCHAR(500),
+	@Class NVARCHAR(50),
+	@RegistrationNumber NVARCHAR(50),
+	@DateOfBirth DATETIME,
+	@Gender NVARCHAR(10),
+	@MobileNumber NVARCHAR(20),
+	@Email NVARCHAR(50)
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+	IF EXISTS (SELECT 1 FROM dbo.Student WHERE Id = @Id)
+	BEGIN 
+		UPDATE dbo.Student SET
+		[Name] = @Name,
+		Class = @Class,
+		RegistrationNumber = @RegistrationNumber,
+		DateOfBirth = @DateOfBirth,
+		Gender = @Gender,
+		MobileNumber = @MobileNumber,
+		Email = @Email
+	WHERE Id = @Id
+	END
+END
+GO
